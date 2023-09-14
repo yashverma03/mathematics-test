@@ -3,9 +3,11 @@ import styles from './Home.module.css';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import questionId from '../../config/data';
 import { useAppContext } from '../../utils/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { name, setName, selectedQuestions, setSelectedQuestions, totalTime, setTotalTime } = useAppContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const newTotalTime = selectedQuestions.length * 5;
@@ -24,8 +26,11 @@ const Home = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log('Name:', name);
-    console.log('Selected Questions:', selectedQuestions);
+    if (selectedQuestions.length === 0) {
+      navigate('/submit');
+    } else {
+      navigate(`/test/${0}`);
+    }
   };
 
   return (
@@ -55,6 +60,7 @@ const Home = () => {
                   label={questionId[key]}
                   id={`question_${key}`}
                   onChange={(e) => handleQuestionCheckboxChange(e, questionId[key])}
+                  checked={selectedQuestions.includes(questionId[key])}
                 />
               </Col>
             ))}
