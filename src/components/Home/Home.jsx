@@ -6,7 +6,7 @@ import { useAppContext } from '../../utils/AppContext';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const { name, setName, selectedQuestions, setSelectedQuestions, totalTime, setTotalTime } = useAppContext();
+  const { name, setName, selectedQuestions, setSelectedQuestions, totalTime, setTotalTime, setGlobalTimer } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const Home = () => {
     if (selectedQuestions.length === 0) {
       navigate('/submit');
     } else {
+      setGlobalTimer(totalTime * 60);
       navigate(`/test/${0}`);
     }
   };

@@ -2,6 +2,12 @@
   margin: 30px 30px;
 }
 
+.timer {
+  text-align: center;
+  color: rgb(2, 188, 2);
+  font-family: 'Times New Roman', Times, serif, sans-serif;
+}
+
 .heading {
   font-size: 20px;
   font-weight: bold;

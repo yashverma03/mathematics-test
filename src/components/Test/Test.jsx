@@ -7,8 +7,9 @@ import apiUrl from '../../config/api';
 import { useAppContext } from '../../utils/AppContext';
 
 const Test = () => {
-  // const { selectedQuestions } = useAppContext();
-  
+  // const { selectedQuestions, globalTimer} = useAppContext();
+  const { globalTimer } = useAppContext();
+
   // dummy data
   const selectedQuestions = [
     'AreaUnderTheCurve_21',
@@ -63,8 +64,13 @@ const Test = () => {
     }
   };
 
+  const minutes = Math.floor(globalTimer / 60);
+  const seconds = globalTimer % 60;
+
   return (
     <div className={styles.container}>
+      <p className={styles.timer}>Timer: {minutes} min {seconds} sec</p>
+
       <h2 className={styles.heading}>Question {currentIndex + 1}</h2>
       <p className={styles.question}>{question}</p>
 
