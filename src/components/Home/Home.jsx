@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './Home.module.css';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import questionId from '../../config/data';
+import { useAppContext } from '../../utils/AppContext';
 
 const Home = () => {
-  const [name, setName] = useState('');
-  const [selectedQuestions, setSelectedQuestions] = useState([]);
-  const [totalTime, setTotalTime] = useState(0);
+  const { name, setName, selectedQuestions, setSelectedQuestions, totalTime, setTotalTime } = useAppContext();
 
   useEffect(() => {
     const newTotalTime = selectedQuestions.length * 5;
