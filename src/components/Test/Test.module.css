@@ -1,0 +1,43 @@
+.container {
+  margin: 30px 30px;
+}
+
+.timer {
+  text-align: center;
+  color: rgb(2, 188, 2);
+  font-family: 'Times New Roman', Times, serif, sans-serif;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.question {
+  font-size: 18px;
+  margin-bottom: 40px;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  font-size: 16px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+}
+
+.submitButton {
+  margin-top: 50px;
+  text-align: right;
+}
