@@ -5,22 +5,23 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import apiUrl from '../../config/api';
 import { useAppContext } from '../../utils/AppContext';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 const Test = () => {
-  // const { globalTimer, questionTime, setQuestionTime } = useAppContext();
-  const { selectedQuestions, globalTimer, questionTime, setQuestionTime } = useAppContext();
+  const { globalTimer, questionTime, setQuestionTime } = useAppContext();
+  // const { selectedQuestions, globalTimer, questionTime, setQuestionTime } = useAppContext();
 
   // dummy data
-  // const selectedQuestions = [
-  //   'AreaUnderTheCurve_21',
-  //   'BinomialTheorem_13',
-  //   'BinomialTheorem_24',
-  //   'AreaUnderTheCurve_15',
-  //   'AreaUnderTheCurve_2',
-  //   // 'BinomialTheorem_3',
-  //   // 'BinomialTheorem_4',
-  //   // 'AreaUnderTheCurve_5',
-  // ];
+  const selectedQuestions = [
+    'AreaUnderTheCurve_21',
+    'BinomialTheorem_13',
+    'BinomialTheorem_24',
+    'AreaUnderTheCurve_15',
+    'AreaUnderTheCurve_2',
+    //   // 'BinomialTheorem_3',
+    //   // 'BinomialTheorem_4',
+    //   // 'AreaUnderTheCurve_5',
+  ];
 
   const { index } = useParams();
   const id = selectedQuestions[index];
@@ -32,19 +33,20 @@ const Test = () => {
   const [questionTimer, setQuestionTimer] = useState(Date.now());
 
   const updateElapsedTime = () => {
-    const elapsedSeconds = Math.floor((Date.now() - questionTimer) / 1000); 
+    const elapsedSeconds = Math.floor((Date.now() - questionTimer) / 1000);
     const updatedQuestionTime = [...questionTime];
-    updatedQuestionTime[currentIndex] += elapsedSeconds; 
-    setQuestionTime(updatedQuestionTime); 
-    setQuestionTimer(Date.now()); 
+    updatedQuestionTime[currentIndex] += elapsedSeconds;
+    setQuestionTime(updatedQuestionTime);
+    setQuestionTimer(Date.now());
   };
 
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
         const response = await axios.get(`${apiUrl}?QuestionID=${id}`);
-        const questionData = response.data[0];
-        setQuestion(questionData.Question);
+        const questionData = response.data[0].Question;
+        const modifiedQuestionData = questionData.split('$').join('$$');
+        setQuestion(modifiedQuestionData);
       } catch (error) {
         console.error('Error fetching question:', error);
       }
@@ -88,39 +90,41 @@ const Test = () => {
   const seconds = globalTimer % 60;
 
   return (
-    <div className={styles.container}>
-      <p className={styles.timer}>Timer: {minutes} min {seconds} sec</p>
+    <MathJaxContext>
+      <div className={styles.container}>
+        <p className={styles.timer}>Timer: {minutes} min {seconds} sec</p>
 
-      <h2 className={styles.heading}>Question {currentIndex + 1}</h2>
-      <p className={styles.question}>{question}</p>
+        <h2 className={styles.heading}>Question {currentIndex + 1}</h2>
+        <MathJax className={styles.question}>{question}</MathJax>
 
-      <div className={styles.buttonContainer}>
-        <Button
-          className={styles.button}
-          onClick={handlePrevClick}
-          disabled={currentIndex === 0}
-        >
-          Previous
-        </Button>
+        <div className={styles.buttonContainer}>
+          <Button
+            className={styles.button}
+            onClick={handlePrevClick}
+            disabled={currentIndex === 0}
+          >
+            Previous
+          </Button>
 
-        <Button
-          className={styles.button}
-          onClick={handleNextClick}
-          disabled={currentIndex === selectedQuestions.length - 1}
-        >
-          Next
-        </Button>
+          <Button
+            className={styles.button}
+            onClick={handleNextClick}
+            disabled={currentIndex === selectedQuestions.length - 1}
+          >
+            Next
+          </Button>
+        </div>
+
+        <div className={styles.submitButton}>
+          <Button
+            variant='danger'
+            onClick={handleSubmitClick}
+          >
+            Submit
+          </Button>
+        </div>
       </div>
-
-      <div className={styles.submitButton}>
-        <Button
-          variant='danger'
-          onClick={handleSubmitClick}
-        >
-          Submit
-        </Button>
-      </div>
-    </div>
+    </MathJaxContext>
   );
 };
 

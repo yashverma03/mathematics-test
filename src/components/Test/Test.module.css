@@ -17,6 +17,9 @@
 .question {
   font-size: 18px;
   margin-bottom: 40px;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
 }
 
 .buttonContainer {
@@ -34,7 +37,7 @@
   cursor: not-allowed;
 }
 
-.submitButton{
+.submitButton {
   margin-top: 50px;
   text-align: right;
 }
