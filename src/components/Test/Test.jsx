@@ -7,20 +7,20 @@ import apiUrl from '../../config/api';
 import { useAppContext } from '../../utils/AppContext';
 
 const Test = () => {
-  // const { selectedQuestions, globalTimer} = useAppContext();
-  const { globalTimer } = useAppContext();
+  // const { globalTimer, questionTime, setQuestionTime } = useAppContext();
+  const { selectedQuestions, globalTimer, questionTime, setQuestionTime } = useAppContext();
 
   // dummy data
-  const selectedQuestions = [
-    'AreaUnderTheCurve_21',
-    'BinomialTheorem_13',
-    'BinomialTheorem_24',
-    // 'AreaUnderTheCurve_15',
-    // 'AreaUnderTheCurve_2',
-    // 'BinomialTheorem_3',
-    // 'BinomialTheorem_4',
-    // 'AreaUnderTheCurve_5',
-  ];
+  // const selectedQuestions = [
+  //   'AreaUnderTheCurve_21',
+  //   'BinomialTheorem_13',
+  //   'BinomialTheorem_24',
+  //   'AreaUnderTheCurve_15',
+  //   'AreaUnderTheCurve_2',
+  //   // 'BinomialTheorem_3',
+  //   // 'BinomialTheorem_4',
+  //   // 'AreaUnderTheCurve_5',
+  // ];
 
   const { index } = useParams();
   const id = selectedQuestions[index];
@@ -29,6 +29,15 @@ const Test = () => {
 
   const [question, setQuestion] = useState('');
   const [currentIndex, setCurrentIndex] = useState(Number(index));
+  const [questionTimer, setQuestionTimer] = useState(Date.now());
+
+  const updateElapsedTime = () => {
+    const elapsedSeconds = Math.floor((Date.now() - questionTimer) / 1000); 
+    const updatedQuestionTime = [...questionTime];
+    updatedQuestionTime[currentIndex] += elapsedSeconds; 
+    setQuestionTime(updatedQuestionTime); 
+    setQuestionTimer(Date.now()); 
+  };
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -52,6 +61,7 @@ const Test = () => {
 
   const handleNextClick = () => {
     if (currentIndex < selectedQuestions.length - 1) {
+      updateElapsedTime();
       setCurrentIndex((prevIndex) => prevIndex + 1);
       navigate(`/test/${currentIndex + 1}`);
     }
@@ -59,10 +69,20 @@ const Test = () => {
 
   const handlePrevClick = () => {
     if (currentIndex > 0) {
+      updateElapsedTime();
       setCurrentIndex((prevIndex) => prevIndex - 1);
       navigate(`/test/${currentIndex - 1}`);
     }
   };
+
+  const handleSubmitClick = () => {
+    updateElapsedTime();
+    navigate('/submit');
+  };
+
+  // useEffect(() => {
+  //   console.log('questionTime', questionTime);
+  // }, [questionTime]);
 
   const minutes = Math.floor(globalTimer / 60);
   const seconds = globalTimer % 60;
@@ -89,6 +109,15 @@ const Test = () => {
           disabled={currentIndex === selectedQuestions.length - 1}
         >
           Next
+        </Button>
+      </div>
+
+      <div className={styles.submitButton}>
+        <Button
+          variant='danger'
+          onClick={handleSubmitClick}
+        >
+          Submit
         </Button>
       </div>
     </div>

@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [totalTime, setTotalTime] = useState(0);
   const [globalTimer, setGlobalTimer] = useState(0);
+  const [questionTime, setQuestionTime] = useState(new Array(8).fill(0));
 
   const state = {
     name,
@@ -20,7 +21,9 @@ export const AppProvider = ({ children }) => {
     totalTime,
     setTotalTime,
     globalTimer,
-    setGlobalTimer
+    setGlobalTimer,
+    questionTime, 
+    setQuestionTime
   };
 
   useEffect(() => {

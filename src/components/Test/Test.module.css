@@ -33,3 +33,8 @@
 .button:disabled {
   cursor: not-allowed;
 }
+
+.submitButton{
+  margin-top: 50px;
+  text-align: right;
+}
