@@ -8,20 +8,7 @@ import { useAppContext } from '../../utils/AppContext';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 const Test = () => {
-  const { globalTimer, questionTime, setQuestionTime } = useAppContext();
-  // const { selectedQuestions, globalTimer, questionTime, setQuestionTime } = useAppContext();
-
-  // dummy data
-  const selectedQuestions = [
-    'AreaUnderTheCurve_21',
-    'BinomialTheorem_13',
-    'BinomialTheorem_24',
-    'AreaUnderTheCurve_15',
-    'AreaUnderTheCurve_2',
-    //   // 'BinomialTheorem_3',
-    //   // 'BinomialTheorem_4',
-    //   // 'AreaUnderTheCurve_5',
-  ];
+  const { selectedQuestions, globalTimer, questionTime, setQuestionTime } = useAppContext();
 
   const { index } = useParams();
   const id = selectedQuestions[index];
@@ -82,10 +69,6 @@ const Test = () => {
     navigate('/submit');
   };
 
-  // useEffect(() => {
-  //   console.log('questionTime', questionTime);
-  // }, [questionTime]);
-
   const minutes = Math.floor(globalTimer / 60);
   const seconds = globalTimer % 60;
 
@@ -98,28 +81,17 @@ const Test = () => {
         <MathJax className={styles.question}>{question}</MathJax>
 
         <div className={styles.buttonContainer}>
-          <Button
-            className={styles.button}
-            onClick={handlePrevClick}
-            disabled={currentIndex === 0}
-          >
+          <Button className={styles.button} onClick={handlePrevClick} disabled={currentIndex === 0}>
             Previous
           </Button>
 
-          <Button
-            className={styles.button}
-            onClick={handleNextClick}
-            disabled={currentIndex === selectedQuestions.length - 1}
-          >
+          <Button className={styles.button} onClick={handleNextClick} disabled={currentIndex === selectedQuestions.length - 1}>
             Next
           </Button>
         </div>
 
         <div className={styles.submitButton}>
-          <Button
-            variant='danger'
-            onClick={handleSubmitClick}
-          >
+          <Button variant='danger' onClick={handleSubmitClick}>
             Submit
           </Button>
         </div>
